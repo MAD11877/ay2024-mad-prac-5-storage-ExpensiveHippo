@@ -2,8 +2,12 @@ package sg.edu.np.mad.madpractical5;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -25,11 +29,11 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // SQL Query to create User table
-        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" +
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_NAME + "TEXT," +
-                COLUMN_DESCRIPTION + "TEXT," +
-                COLUMN_FOLLOWED + "TEXT," + ")";
+                COLUMN_NAME + " TEXT," +
+                COLUMN_DESCRIPTION + " TEXT," +
+                COLUMN_FOLLOWED + " TEXT" + ")";
 
         db.execSQL(CREATE_USER_TABLE);
     }
@@ -40,7 +44,7 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Add user attributes into database
+    // Add user into database
     public void addUser(User user) {
 
         // Reference:
@@ -53,6 +57,27 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_FOLLOWED, user.getFollowed());
 
         db.insert(TABLE_USER, null, values);
-        db.close();
+//        db.close();
+    }
+
+    // Get all users in database
+    public ArrayList<User> getUsers() {
+        ArrayList<User> userList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USER, null);
+
+        // iterate through cursor if there are rows
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            Boolean followed = Boolean.parseBoolean(cursor.getString(3));
+
+            // create user objects and add them to userList
+            userList.add(new User(name, description, id, followed));
+        }
+        cursor.close();
+//        db.close();
+        return userList;
     }
 }

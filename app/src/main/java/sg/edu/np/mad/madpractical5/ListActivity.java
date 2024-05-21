@@ -50,6 +50,8 @@ public class ListActivity extends AppCompatActivity {
             dbHandler.addUser(temp);
         }
 
+        ArrayList<User> userArrayList = dbHandler.getUsers();
+
         RecyclerView rView = findViewById(R.id.rView);
         UserAdapter userAdapter = new UserAdapter(userArrayList, ListActivity.this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ListActivity.this);
