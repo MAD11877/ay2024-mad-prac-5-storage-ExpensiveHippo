@@ -54,10 +54,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
         values.put(COLUMN_NAME, user.getName());
         values.put(COLUMN_DESCRIPTION, user.getDescription());
-        values.put(COLUMN_FOLLOWED, user.getFollowed());
+        values.put(COLUMN_FOLLOWED, String.valueOf(user.getFollowed()));
 
         db.insert(TABLE_USER, null, values);
-//        db.close();
     }
 
     // Get all users in database
@@ -77,7 +76,22 @@ public class DBHandler extends SQLiteOpenHelper {
             userList.add(new User(name, description, id, followed));
         }
         cursor.close();
-//        db.close();
         return userList;
+    }
+
+    public void updateUser(User user) {
+
+        // new values of attributes in user
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, user.getName());
+        values.put(COLUMN_DESCRIPTION, user.getDescription());
+        values.put(COLUMN_FOLLOWED, String.valueOf(user.getFollowed()));
+
+        // find row to update
+        String selection = COLUMN_ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(user.getId()) };
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_USER, values, selection, selectionArgs);
     }
 }

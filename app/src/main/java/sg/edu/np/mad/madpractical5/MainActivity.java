@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             user.setId(extras.getInt("id"));
             user.setDescription(extras.getString("description"));
             user.setFollowed(extras.getBoolean("followed"));
-
         }
 
         // Get the TextViews and Button from the layout
@@ -56,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             btnFollow.setText("Follow");
         }
 
+        // Initialise DBHandler
+        DBHandler dbHandler = new DBHandler(getApplicationContext());
+
         // Set event listener for follow button
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Followed", Toast.LENGTH_SHORT).show();
                 }
                 user.toggleFollow();
+                dbHandler.updateUser(user);
             }
         });
     }
