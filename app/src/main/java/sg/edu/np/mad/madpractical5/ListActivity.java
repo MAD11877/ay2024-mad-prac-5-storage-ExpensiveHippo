@@ -1,7 +1,9 @@
 package sg.edu.np.mad.madpractical5;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -33,15 +35,19 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Instantiate database handler
+        DBHandler dbHandler = new DBHandler(getApplicationContext());
+
         // Generate Users
-        ArrayList<User> userArrayList =  new ArrayList<>();
         for (int i = 0; i < 20; i ++) {
             String name = "Name" + String.valueOf(new Random().nextInt(9999999)) ;
             String description = "Description" + String.valueOf(new Random().nextInt(9999999));
             boolean followed = new Random().nextBoolean();
 
             User temp = new User(name, description, i, followed);
-            userArrayList.add(temp);
+
+            // Store user data in SQLite Database
+            dbHandler.addUser(temp);
         }
 
         RecyclerView rView = findViewById(R.id.rView);
