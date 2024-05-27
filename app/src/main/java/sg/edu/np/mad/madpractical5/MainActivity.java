@@ -1,6 +1,5 @@
 package sg.edu.np.mad.madpractical5;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Initialise DBHandler
-        DBHandler dbHandler = new DBHandler(getApplicationContext());
+        DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
 
         // Set event listener for follow button
         btnFollow.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Followed", Toast.LENGTH_SHORT).show();
                 }
                 user.toggleFollow();
-                dbHandler.updateUser(user);
+                databaseHandler.updateUser(user);
             }
         });
     }

@@ -1,9 +1,5 @@
 package sg.edu.np.mad.madpractical5;
 
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -12,9 +8,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.view.View;
-import android.widget.ImageView;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +29,7 @@ public class ListActivity extends AppCompatActivity {
         });
 
         // Instantiate database handler
-        DBHandler dbHandler = new DBHandler(getApplicationContext());
+        DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
 
         // Generate Users
         for (int i = 0; i < 20; i ++) {
@@ -47,10 +40,10 @@ public class ListActivity extends AppCompatActivity {
             User temp = new User(name, description, i, followed);
 
             // Store user data in SQLite Database
-            dbHandler.addUser(temp);
+            databaseHandler.addUser(temp);
         }
 
-        ArrayList<User> userArrayList = dbHandler.getUsers();
+        ArrayList<User> userArrayList = databaseHandler.getUsers();
 
         RecyclerView rView = findViewById(R.id.rView);
         UserAdapter userAdapter = new UserAdapter(userArrayList, ListActivity.this);

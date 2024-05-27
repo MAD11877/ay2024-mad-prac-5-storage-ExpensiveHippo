@@ -7,9 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DBHandler extends SQLiteOpenHelper {
+public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "userDB.db";
@@ -21,7 +20,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Reference:
     // https://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper#public-constructors_1
-    public DBHandler(Context context) {
+    public DatabaseHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
